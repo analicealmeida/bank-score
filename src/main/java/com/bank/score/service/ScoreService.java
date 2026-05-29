@@ -3,6 +3,8 @@ package com.bank.score.service;
 import com.bank.score.model.Score;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public interface ScoreService {
 
@@ -10,5 +12,5 @@ public interface ScoreService {
 
      Score getByScore(String id);
 
-     Score getByCpf(String cpf);
+      Score getByCpf(String cpf);
 }

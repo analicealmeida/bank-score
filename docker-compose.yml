@@ -5,6 +5,12 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   score-service:
     build:
       context: .
@@ -12,6 +18,8 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/score
+    restart: on-failure

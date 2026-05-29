@@ -6,6 +6,8 @@ import com.bank.score.service.ScoreService;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ScoreServiceImpl implements ScoreService {
 
@@ -32,6 +34,15 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public Score getByCpf(String cpf) {
-        return scoreRepository.findByCpf(cpf).get();
+        Optional<Score> scoreGet = scoreRepository.findByCpf(cpf);
+        if(scoreGet.isPresent()){
+            return scoreGet.get();
+        }
+        Score score = new Score();
+        score.setCpf(cpf);
+        score.setPontuacao(500);
+        score.setClassificacao("MEDIA");
+        scoreRepository.save(score);
+        return score;
     }
 }
